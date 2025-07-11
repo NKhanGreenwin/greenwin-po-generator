@@ -12,8 +12,10 @@ import {
   Send,
   Plus,
   Trash2,
-  Store
+  Store,
+  Download
 } from 'lucide-react';
+import { downloadPDF } from '../utils/pdfGenerator';
 
 const FormContainer = styled.div`
   padding: 2.5rem;
@@ -270,31 +272,53 @@ const AddButton = styled.button`
   }
 `;
 
-const SubmitButton = styled(motion.button)`
+const BaseButton = styled(motion.button)`
   background: linear-gradient(135deg, #198754 0%, #0f5132 100%);
   color: white;
   border: none;
-  border-radius: 16px;
-  padding: 1.25rem 2rem;
-  font-size: 1.0625rem;
+  border-radius: 12px;
+  padding: 0.875rem 1.5rem;
+  font-size: 0.9375rem;
   font-weight: 600;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
-  margin-top: 1rem;
-  box-shadow: 0 8px 25px rgba(25, 135, 84, 0.3);
+  gap: 0.5rem;
+  box-shadow: 0 4px 12px rgba(25, 135, 84, 0.25);
+  min-width: 200px;
+  height: 48px;
 
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 35px rgba(25, 135, 84, 0.4);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(25, 135, 84, 0.35);
   }
 
   &:disabled {
     opacity: 0.6;
     cursor: not-allowed;
     transform: none;
+  }
+`;
+
+const SubmitButton = styled(BaseButton)``;
+
+const PDFButton = styled(BaseButton)`
+  background: linear-gradient(135deg, #198754 0%, #0f5132 100%);
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  justify-content: center;
+  align-items: stretch;
+  flex-wrap: wrap;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: center;
   }
 `;
 
@@ -524,6 +548,26 @@ function POForm({ onSubmit }) {
     };
     
     onSubmit(formData);
+  };
+
+  const handlePDFExport = () => {
+    const formData = watch(); // Get current form values
+    const subtotal = calculateSubtotal();
+    const hst = calculateHST(subtotal);
+    const total = calculateTotal(subtotal, hst);
+    
+    const pdfData = {
+      ...formData,
+      items: items.filter(item => item.description.trim() !== ''),
+      subtotal: subtotal.toFixed(2),
+      hst: hst.toFixed(2),
+      totalWithHST: total.toFixed(2),
+      submittedAt: new Date().toISOString()
+    };
+    
+    const timestamp = new Date().toISOString().slice(0, 10);
+    const filename = `greenwin-po-request-${timestamp}.pdf`;
+    downloadPDF(pdfData, filename);
   };
 
   return (
@@ -787,14 +831,26 @@ function POForm({ onSubmit }) {
           </TotalsContainer>
         </Section>
 
-        <SubmitButton
-          type="submit"
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-        >
-          <Send size={20} />
-          Submit Purchase Order Request
-        </SubmitButton>
+        <ButtonContainer>
+          <PDFButton
+            type="button"
+            onClick={handlePDFExport}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            <Download size={16} />
+            Export as PDF
+          </PDFButton>
+          
+          <SubmitButton
+            type="submit"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            <Send size={16} />
+            Submit Purchase Order Request
+          </SubmitButton>
+        </ButtonContainer>
       </Form>
     </FormContainer>
   );
