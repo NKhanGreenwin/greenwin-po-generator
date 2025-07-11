@@ -50,11 +50,8 @@ export const generatePDF = (formData) => {
 
   // Requestor Information Section
   yPosition = addSection(doc, yPosition, 'REQUESTOR INFORMATION', [
-    ['Name:', formData.requestorName || 'N/A'],
-    ['Email:', formData.requestorEmail || 'N/A'],
-    ['Department:', formData.department || 'N/A'],
-    ['Manager Name:', formData.managerName || 'N/A'],
-    ['Manager Email:', formData.managerEmail || 'N/A']
+    ['Name:', formData.requesterName || 'N/A'],
+    ['Email:', formData.requesterEmail || 'N/A']
   ]);
 
   // Property & Work Details Section
@@ -62,17 +59,14 @@ export const generatePDF = (formData) => {
     ['Property:', formData.property || 'N/A'],
     ['Property Code:', formData.propertyCode || 'N/A'],
     ['Unit Number:', formData.unitNumber || 'N/A'],
-    ['Work Description:', formData.workDescription || 'N/A'],
-    ['Urgency:', formData.urgency || 'N/A'],
+    ['Work Description:', formData.descriptionOfWork || 'N/A'],
+    ['Priority:', formData.priority || 'N/A'],
     ['Required Date:', formData.requiredDate || 'N/A']
   ]);
 
   // Vendor Information Section
   yPosition = addSection(doc, yPosition, 'VENDOR INFORMATION', [
-    ['Vendor Name:', formData.vendorName || 'N/A'],
-    ['Contact Person:', formData.vendorContact || 'N/A'],
-    ['Email:', formData.vendorEmail || 'N/A'],
-    ['Phone:', formData.vendorPhone || 'N/A']
+    ['Vendor/Supplier Name:', formData.vendorName || 'N/A']
   ]);
 
   // Check if we need a new page for items
