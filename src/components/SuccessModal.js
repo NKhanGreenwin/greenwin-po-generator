@@ -290,15 +290,35 @@ function SuccessModal({ data, onClose }) {
             </SuccessIcon>
             <Title>Request Submitted Successfully!</Title>
             <Subtitle>
-              Your purchase order request has been forwarded to our ticketing system for processing.
+              {data.emailSent 
+                ? "Your purchase order request has been emailed to Starlight_Po@greenwin.freshservice.com for processing."
+                : "Your purchase order request has been prepared. Please complete the email process to submit your request."
+              }
             </Subtitle>
           </Header>
 
           <Content>
             <TicketNumber>
               <TicketLabel>Ticket Number</TicketLabel>
-              <TicketValue>{generateTicketNumber()}</TicketValue>
+              <TicketValue>{data.ticketNumber || generateTicketNumber()}</TicketValue>
             </TicketNumber>
+
+            {data.emailMessage && (
+              <Section>
+                <InfoItem style={{ 
+                  background: data.emailSent ? '#f0f9ff' : '#fef3c7', 
+                  border: data.emailSent ? '1px solid #0ea5e9' : '1px solid #f59e0b' 
+                }}>
+                  <InfoLabel>Email Status</InfoLabel>
+                  <InfoValue style={{ 
+                    color: data.emailSent ? '#0ea5e9' : '#f59e0b',
+                    fontSize: '0.9rem'
+                  }}>
+                    {data.emailMessage}
+                  </InfoValue>
+                </InfoItem>
+              </Section>
+            )}
 
                          <Section>
                <SectionTitle>

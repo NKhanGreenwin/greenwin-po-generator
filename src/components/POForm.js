@@ -13,7 +13,8 @@ import {
   Plus,
   Trash2,
   Store,
-  Download
+  Download,
+  Loader2
 } from 'lucide-react';
 import { downloadPDF } from '../utils/pdfGenerator';
 
@@ -21,6 +22,15 @@ const FormContainer = styled.div`
   padding: 2.5rem;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
   line-height: 1.5;
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
 `;
 
 const FormHeader = styled.div`
@@ -378,7 +388,7 @@ const TotalRowValue = styled.span`
   }
 `;
 
-function POForm({ onSubmit }) {
+function POForm({ onSubmit, isSubmitting = false }) {
   const { register, handleSubmit, formState: { errors }, watch, setValue } = useForm();
   const [items, setItems] = useState([{ description: '', qty: '', unitPrice: '', glCode: '', expenseType: '' }]);
 
@@ -844,11 +854,25 @@ function POForm({ onSubmit }) {
           
           <SubmitButton
             type="submit"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+            disabled={isSubmitting}
+            whileHover={!isSubmitting ? { scale: 1.02 } : {}}
+            whileTap={!isSubmitting ? { scale: 0.98 } : {}}
+            style={{
+              opacity: isSubmitting ? 0.7 : 1,
+              cursor: isSubmitting ? 'not-allowed' : 'pointer'
+            }}
           >
-            <Send size={16} />
-            Submit Purchase Order Request
+            {isSubmitting ? (
+              <>
+                <Loader2 size={16} style={{ animation: 'spin 1s linear infinite' }} />
+                Sending Email...
+              </>
+            ) : (
+              <>
+                <Send size={16} />
+                Submit Purchase Order Request
+              </>
+            )}
           </SubmitButton>
         </ButtonContainer>
       </Form>

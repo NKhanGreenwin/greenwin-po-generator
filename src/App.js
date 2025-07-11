@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import POForm from './components/POForm';
 import SuccessModal from './components/SuccessModal';
+import { sendDirectEmail, sendPurchaseOrderEmail } from './utils/emailService';
 
 const AppContainer = styled.div`
   min-height: 100vh;
@@ -32,13 +33,48 @@ const ContentWrapper = styled(motion.div)`
 function App() {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [submittedData, setSubmittedData] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleFormSubmit = (formData) => {
-    setSubmittedData(formData);
-    setShowSuccessModal(true);
+  const handleFormSubmit = async (formData) => {
+    setIsSubmitting(true);
     
-    // Here you would typically send the data to your ticketing system
-    console.log('Form submitted:', formData);
+    try {
+      console.log('Form submitted:', formData);
+      
+      // Send email to Starlight_Po@greenwin.freshservice.com
+      const emailResult = await sendDirectEmail(formData);
+      
+      // Update form data with email result
+      const updatedFormData = {
+        ...formData,
+        ticketNumber: emailResult.ticketNumber,
+        emailSent: emailResult.success,
+        emailMessage: emailResult.message
+      };
+      
+      setSubmittedData(updatedFormData);
+      setShowSuccessModal(true);
+      
+      if (emailResult.success) {
+        console.log('Email sent successfully:', emailResult);
+      } else {
+        console.error('Email sending failed:', emailResult.error);
+      }
+      
+    } catch (error) {
+      console.error('Form submission error:', error);
+      
+      // Still show success modal even if email fails
+      setSubmittedData({
+        ...formData,
+        ticketNumber: `PO-${Date.now().toString().slice(-6)}`,
+        emailSent: false,
+        emailMessage: 'Failed to send email automatically. Please contact support.'
+      });
+      setShowSuccessModal(true);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const closeSuccessModal = () => {
@@ -56,6 +92,7 @@ function App() {
         >
           <POForm 
             onSubmit={handleFormSubmit}
+            isSubmitting={isSubmitting}
           />
         </ContentWrapper>
       </MainContent>
