@@ -26,66 +26,100 @@ const LandingContainer = styled.div`
 `;
 
 const LoginCard = styled(motion.div)`
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.97);
   backdrop-filter: blur(20px);
   border-radius: 24px;
-  padding: 3rem;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 2.5rem 3rem 3rem;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   width: 100%;
-  max-width: 480px;
+  max-width: 450px;
   text-align: center;
   position: relative;
   z-index: 1;
+
+  @media (max-width: 640px) {
+    padding: 2rem;
+    margin: 1rem;
+    max-width: 90%;
+  }
 `;
 
 const Header = styled.div`
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
+  
+  @media (max-width: 640px) {
+    margin-bottom: 1.5rem;
+  }
 `;
 
 const LogoContainer = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
+  text-align: center;
+  margin-bottom: 2rem;
 `;
 
 const LogoIcon = styled.div`
-  width: 64px;
-  height: 64px;
+  width: 80px;
+  height: 80px;
   background: linear-gradient(135deg, #198754 0%, #0f5132 100%);
-  border-radius: 16px;
+  border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8px 20px rgba(25, 135, 84, 0.3);
+  box-shadow: 0 12px 24px rgba(25, 135, 84, 0.3);
+  margin-bottom: 1.5rem;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+`;
+
+const BrandContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
 `;
 
 const CompanyName = styled.h1`
-  font-size: 2rem;
-  font-weight: 700;
+  font-size: 2.5rem;
+  font-weight: 800;
   color: #0f5132;
   margin: 0;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.05em;
+  line-height: 1;
 `;
 
 const AppTitle = styled.h2`
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 600;
   color: #198754;
-  margin: 0.5rem 0 0 0;
+  margin: 0;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 `;
 
 const Subtitle = styled.p`
   color: #64748b;
-  font-size: 1.125rem;
-  line-height: 1.6;
+  font-size: 1rem;
+  line-height: 1.5;
   margin: 1rem 0 0 0;
+  font-weight: 400;
+  max-width: 280px;
+  text-align: center;
 `;
 
 const AuthSection = styled.div`
-  margin: 2rem 0;
+  margin: 1.5rem 0 2rem;
+  
+  @media (max-width: 640px) {
+    margin: 1rem 0 1.5rem;
+  }
 `;
 
 const AuthTitle = styled.h3`
@@ -209,8 +243,13 @@ const SecurityInfo = styled.div`
   background: #f0fdf4;
   border: 1px solid #bbf7d0;
   border-radius: 12px;
-  padding: 1.5rem;
-  margin-top: 2rem;
+  padding: 1.25rem;
+  margin-top: 1.5rem;
+  
+  @media (max-width: 640px) {
+    padding: 1rem;
+    margin-top: 1rem;
+  }
 `;
 
 const SecurityTitle = styled.h4`
@@ -340,16 +379,16 @@ function LandingPage({ onAuthorized }) {
         <Header>
           <LogoContainer>
             <LogoIcon>
-              <Building2 size={32} color="white" />
+              <Building2 size={36} color="white" />
             </LogoIcon>
-            <div>
+            <BrandContainer>
               <CompanyName>Greenwin</CompanyName>
               <AppTitle>PO Generator</AppTitle>
-            </div>
+            </BrandContainer>
+            <Subtitle>
+              Secure Purchase Order Management System
+            </Subtitle>
           </LogoContainer>
-          <Subtitle>
-            Secure Purchase Order Management System
-          </Subtitle>
         </Header>
 
         <AuthSection>
