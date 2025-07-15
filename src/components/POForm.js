@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
+import Joyride from 'react-joyride';
 import { 
   ShoppingCart, 
   Building, 
@@ -388,9 +389,358 @@ const TotalRowValue = styled.span`
   }
 `;
 
-function POForm({ onSubmit, isSubmitting = false }) {
+function POForm({ onSubmit, isSubmitting = false, runTour = false, onTourEnd }) {
   const { register, handleSubmit, formState: { errors }, watch, setValue } = useForm();
   const [items, setItems] = useState([{ description: '', qty: '', unitPrice: '', glCode: '', expenseType: '' }]);
+  const [tourRunning, setTourRunning] = useState(runTour);
+  const scenario = "Let's create a PO for new office chairs for the 2360 Weston Road property!";
+  const [quizStep, setQuizStep] = useState(0);
+  const [quizScore, setQuizScore] = useState(0);
+  const [showQuiz, setShowQuiz] = useState(false);
+  const [quizComplete, setQuizComplete] = useState(false);
+
+  useEffect(() => {
+    if (runTour) setTourRunning(true);
+  }, [runTour]);
+
+  const quizQuestions = [
+    {
+      question: 'What information does the Priority field help determine?',
+      options: ['Delivery cost', 'Processing urgency and approval workflow', 'Vendor selection'],
+      answer: 1
+    },
+    {
+      question: 'Why should you be specific in item descriptions?',
+      options: ['To increase the price', 'To speed up approvals and ensure correct delivery', 'To confuse vendors'],
+      answer: 1
+    },
+    {
+      question: 'How much HST is automatically calculated?',
+      options: ['10%', '13%', '15%'],
+      answer: 1
+    },
+    {
+      question: 'What happens when you select a property?',
+      options: ['The property code auto-fills', 'The form resets', 'Nothing changes'],
+      answer: 0
+    },
+    {
+      question: 'Which field helps with budget tracking and financial reporting?',
+      options: ['Special Instructions', 'GL Code', 'Vendor Name'],
+      answer: 1
+    },
+    {
+      question: 'How long should you typically allow for PO processing?',
+      options: ['1-2 days', '5-10 business days', '1 month'],
+      answer: 1
+    }
+  ];
+
+  const handleQuizAnswer = (idx) => {
+    if (idx === quizQuestions[quizStep].answer) setQuizScore(s => s + 1);
+    if (quizStep < quizQuestions.length - 1) {
+      setQuizStep(s => s + 1);
+    } else {
+      setQuizComplete(true);
+      setTimeout(() => setShowQuiz(false), 2000);
+    }
+  };
+
+  const tourSteps = [
+    {
+      target: 'body',
+      placement: 'center',
+      content: (
+        <div style={{ textAlign: 'center' }}>
+          <h2>👋 Welcome to PO Generator!</h2>
+          <p><strong>Scenario:</strong> You need to order 6 ergonomic office chairs for your team at 2360 Weston Road</p>
+          <p>This comprehensive tour covers every feature - from basic fields to advanced tips!</p>
+          <p><em>🎯 Completion time: ~3 minutes</em></p>
+        </div>
+      ),
+      disableBeacon: true,
+      spotlightClicks: true,
+    },
+    {
+      target: '[data-tour="requesterName"]',
+      content: (
+        <div>
+          <b>👤 Full Name</b><br/>
+          Enter your full legal name as it appears in company records.<br/>
+          <span style={{color:'#198754'}}>✅ Tip: Use your full legal name for approval tracking</span><br/>
+          <span style={{color:'#dc3545'}}>❌ Avoid: Nicknames, abbreviations, or informal names</span>
+        </div>
+      ),
+      spotlightClicks: true,
+    },
+    {
+      target: '[data-tour="requesterEmail"]',
+      content: (
+        <div>
+          <b>📧 Email Address</b><br/>
+          Your work email for notifications and approval workflows.<br/>
+          <span style={{color:'#198754'}}>✅ Required for automated email notifications</span><br/>
+          <span style={{color:'#f39c12'}}>⚠️ Double-check spelling - typos delay processing!</span>
+        </div>
+      ),
+      spotlightClicks: true,
+    },
+    {
+      target: '[data-tour="department"]',
+      content: (
+        <div>
+          <b>🏢 Department</b><br/>
+          Select your department for budget allocation and approval routing.<br/>
+          <span style={{color:'#198754'}}>📊 This determines your budget limits and approver</span><br/>
+          <span style={{color:'#17a2b8'}}>💡 Not sure? Check with HR or your manager</span>
+        </div>
+      ),
+      spotlightClicks: true,
+    },
+    {
+      target: '[data-tour="manager"]',
+      content: (
+        <div>
+          <b>👔 Manager/Approver</b><br/>
+          Who will approve this purchase? Enter their full name.<br/>
+          <span style={{color:'#198754'}}>🎯 Tip: Use the exact name from the company directory</span><br/>
+          <span style={{color:'#f39c12'}}>⚡ This person will receive the approval email</span>
+        </div>
+      ),
+      spotlightClicks: true,
+    },
+    {
+      target: '[data-tour="property"]',
+      content: (
+        <div>
+          <b>🏢 Property Selection</b><br/>
+          Select <strong>2360 Weston Road</strong> for our scenario.<br/>
+          <span style={{color:'#198754'}}>🔄 Watch the property code auto-populate below!</span><br/>
+          <span style={{color:'#17a2b8'}}>📍 This determines delivery address and budget allocation</span>
+        </div>
+      ),
+      spotlightClicks: true,
+    },
+    {
+      target: '[data-tour="requiredDate"]',
+      content: (
+        <div>
+          <b>📅 Required By Date</b><br/>
+          When do you need this delivered? Be realistic with timing.<br/>
+          <span style={{color:'#198754'}}>⏰ Tip: Allow 5-10 business days for processing</span><br/>
+          <span style={{color:'#dc3545'}}>🚨 Rush orders may require additional approvals</span>
+        </div>
+      ),
+      spotlightClicks: true,
+    },
+    {
+      target: '[data-tour="priority"]',
+      content: (
+        <div>
+          <b>🔥 Priority Level</b><br/>
+          Set priority based on business impact and urgency.<br/>
+          <span style={{color:'#dc3545'}}>🔴 High: Critical business operations</span><br/>
+          <span style={{color:'#f39c12'}}>🟡 Medium: Important but can wait</span><br/>
+          <span style={{color:'#198754'}}>🟢 Low: Nice to have, flexible timing</span>
+        </div>
+      ),
+      spotlightClicks: true,
+    },
+    {
+      target: '[data-tour="budgetCode"]',
+      content: (
+        <div>
+          <b>💼 Budget Code</b><br/>
+          Optional: Specify which budget line this purchase charges to.<br/>
+          <span style={{color:'#198754'}}>📊 Helps with financial tracking and reporting</span><br/>
+          <span style={{color:'#17a2b8'}}>💡 Ask your finance team if unsure</span>
+        </div>
+      ),
+      spotlightClicks: true,
+    },
+    {
+      target: '[data-tour="vendorName"]',
+      content: (
+        <div>
+          <b>🏪 Vendor/Supplier</b><br/>
+          Type "Staples" and see the autocomplete in action!<br/>
+          <span style={{color:'#198754'}}>🔍 Start typing to filter from approved vendors</span><br/>
+          <span style={{color:'#f39c12'}}>❓ Vendor missing? Contact procurement team</span>
+        </div>
+      ),
+      spotlightClicks: true,
+    },
+    {
+      target: '[data-tour="itemDescription"]',
+      content: (
+        <div>
+          <b>🪑 Item Description</b><br/>
+          Enter: <strong>"Ergonomic Office Chair - Black"</strong><br/>
+          <span style={{color:'#198754'}}>✅ Be specific: Brand, model, color, size</span><br/>
+          <span style={{color:'#17a2b8'}}>🎯 Good descriptions speed up approvals</span>
+        </div>
+      ),
+      spotlightClicks: true,
+    },
+    {
+      target: '[data-tour="quantity"]',
+      content: (
+        <div>
+          <b>🔢 Quantity</b><br/>
+          Enter <strong>6</strong> for our scenario.<br/>
+          <span style={{color:'#198754'}}>📦 How many units do you need?</span><br/>
+          <span style={{color:'#f39c12'}}>💡 Consider future needs to bulk order efficiently</span>
+        </div>
+      ),
+      spotlightClicks: true,
+    },
+    {
+      target: '[data-tour="unitPrice"]',
+      content: (
+        <div>
+          <b>💰 Unit Price</b><br/>
+          Enter <strong>299.99</strong> per chair.<br/>
+          <span style={{color:'#198754'}}>💵 Price per individual item (excluding tax)</span><br/>
+          <span style={{color:'#17a2b8'}}>🔄 Total will auto-calculate below!</span>
+        </div>
+      ),
+      spotlightClicks: true,
+    },
+    {
+      target: '[data-tour="glCode"]',
+      content: (
+        <div>
+          <b>📋 GL Code</b><br/>
+          Select the appropriate accounting code for this expense type.<br/>
+          <span style={{color:'#198754'}}>📊 For office furniture, try "Office and Supplies"</span><br/>
+          <span style={{color:'#f39c12'}}>🤔 Unsure? Your finance team can help</span>
+        </div>
+      ),
+      spotlightClicks: true,
+    },
+    {
+      target: '[data-tour="totalsSection"]',
+      content: (
+        <div>
+          <b>🧮 Automatic Calculations</b><br/>
+          Watch totals update automatically as you enter items!<br/>
+          <span style={{color:'#198754'}}>💰 Subtotal + 13% HST = Final Total</span><br/>
+          <span style={{color:'#17a2b8'}}>✨ No manual math required!</span>
+        </div>
+      ),
+      spotlightClicks: true,
+    },
+    {
+      target: '[data-tour="addItemButton"]',
+      content: (
+        <div>
+          <b>➕ Add Another Item</b><br/>
+          Need multiple items? Click here to add more rows.<br/>
+          <span style={{color:'#198754'}}>📝 Combine related items in one PO for efficiency</span><br/>
+          <span style={{color:'#dc3545'}}>🗑️ Use the trash icon to remove unwanted items</span>
+        </div>
+      ),
+      spotlightClicks: true,
+    },
+    {
+      target: '[data-tour="businessJustification"]',
+      content: (
+        <div>
+          <b>📝 Business Justification</b><br/>
+          Explain why this purchase is necessary.<br/>
+          <span style={{color:'#198754'}}>✅ Example: "Current chairs cause employee back pain, affecting productivity"</span><br/>
+          <span style={{color:'#f39c12'}}>💡 Strong justifications speed approvals</span>
+        </div>
+      ),
+      spotlightClicks: true,
+    },
+    {
+      target: '[data-tour="specialInstructions"]',
+      content: (
+        <div>
+          <b>📋 Special Instructions</b><br/>
+          Optional delivery notes, setup requirements, etc.<br/>
+          <span style={{color:'#198754'}}>📦 Example: "Deliver to 3rd floor conference room"</span><br/>
+          <span style={{color:'#17a2b8'}}>🎯 Help vendors fulfill your request perfectly</span>
+        </div>
+      ),
+      spotlightClicks: true,
+    },
+    {
+      target: '.header-section',
+      content: (
+        <div>
+          <b>🔧 Header Tools</b><br/>
+          <span style={{color:'#198754'}}>💾 Save Draft: Keep your progress</span><br/>
+          <span style={{color:'#f39c12'}}>🔄 Clear Form: Start over</span><br/>
+          <span style={{color:'#17a2b8'}}>❓ Help: Get additional support</span><br/>
+          <span style={{color:'#dc3545'}}>🔔 Notifications: System alerts</span>
+        </div>
+      ),
+      spotlightClicks: true,
+    },
+    {
+      target: '[data-tour="exportPDF"]',
+      content: (
+        <div>
+          <b>📄 Export as PDF</b><br/>
+          Download a copy for your records before submitting.<br/>
+          <span style={{color:'#198754'}}>🗂️ Great for expense reports and filing</span><br/>
+          <span style={{color:'#17a2b8'}}>💡 PDF includes all details and calculations</span>
+        </div>
+      ),
+      spotlightClicks: true,
+    },
+    {
+      target: '[data-tour="submitButton"]',
+      content: (
+        <div>
+          <b>🚀 Submit Your PO</b><br/>
+          Final step! This sends your request for approval.<br/>
+          <span style={{color:'#198754'}}>✅ Email goes to your manager and procurement</span><br/>
+          <span style={{color:'#f39c12'}}>⚡ You'll get a confirmation with tracking number</span>
+        </div>
+      ),
+      spotlightClicks: true,
+    },
+    {
+      target: 'body',
+      placement: 'center',
+      content: (
+        <div style={{ textAlign: 'center' }}>
+          <h2>🎉 Tour Complete!</h2>
+          <p><strong>Pro Tips Summary:</strong></p>
+          <ul style={{ textAlign: 'left', margin: '1rem 0' }}>
+            <li>✅ Fill all required fields to avoid delays</li>
+            <li>💰 Check budgets before large purchases</li>
+            <li>📞 Contact procurement for vendor questions</li>
+            <li>⏰ Allow realistic timeframes</li>
+            <li>💾 Save drafts for complex orders</li>
+          </ul>
+          <p>Ready for a quick knowledge check?</p>
+          <button onClick={() => { 
+              setShowQuiz(true); 
+              setQuizStep(0); 
+              setQuizScore(0); 
+              setQuizComplete(false);
+              setTourRunning(false); // Close the tour modal
+              if (onTourEnd) onTourEnd(); // Trigger tour end callback
+              // Scroll to bottom of page to show the quiz
+              setTimeout(() => {
+                window.scrollTo({ 
+                  top: document.body.scrollHeight, 
+                  behavior: 'smooth' 
+                });
+              }, 100); // Small delay to ensure quiz renders first
+            }} 
+                  style={{background:'#198754', color:'white', padding:'10px 20px', border:'none', borderRadius:'8px', cursor:'pointer'}}>
+            Start Quiz 🧠
+          </button>
+        </div>
+      ),
+      spotlightClicks: true,
+    },
+  ];
 
   // Property code mapping
   const propertyCodeMapping = {
@@ -582,6 +932,20 @@ function POForm({ onSubmit, isSubmitting = false }) {
 
   return (
     <FormContainer>
+      <Joyride
+        steps={tourSteps}
+        run={tourRunning}
+        continuous
+        showProgress
+        showSkipButton
+        styles={{ options: { zIndex: 2000 } }}
+        callback={data => {
+          if (data.status === 'finished' || data.status === 'skipped') {
+            setTourRunning(false);
+            if (onTourEnd) onTourEnd();
+          }
+        }}
+      />
       <FormHeader>
         <Title>Create Purchase Order Request</Title>
         <Subtitle>
@@ -606,6 +970,7 @@ function POForm({ onSubmit, isSubmitting = false }) {
               <Input
                 {...register("requesterName", { required: "Name is required" })}
                 placeholder="Enter your full name"
+                data-tour="requesterName"
               />
               {errors.requesterName && <ErrorText>{errors.requesterName.message}</ErrorText>}
             </Field>
@@ -622,6 +987,7 @@ function POForm({ onSubmit, isSubmitting = false }) {
                   }
                 })}
                 placeholder="your.email@company.com"
+                data-tour="requesterEmail"
               />
               {errors.requesterEmail && <ErrorText>{errors.requesterEmail.message}</ErrorText>}
             </Field>
@@ -641,7 +1007,7 @@ function POForm({ onSubmit, isSubmitting = false }) {
           <FieldGroup>
             <Field>
               <Label>Property *</Label>
-              <Select {...register("property", { required: "Property selection is required" })}>
+              <Select {...register("property", { required: "Property selection is required" })} data-tour="property">
                 <option value="">Select Property</option>
                 <option value="2360 Weston Road">2360 Weston Road</option>
                 <option value="2450 & 2460 Weston Road">2450 & 2460 Weston Road</option>
@@ -684,13 +1050,14 @@ function POForm({ onSubmit, isSubmitting = false }) {
               <Input
                 type="date"
                 {...register("requiredDate", { required: "Required date is needed" })}
+                data-tour="requiredDate"
               />
               {errors.requiredDate && <ErrorText>{errors.requiredDate.message}</ErrorText>}
             </Field>
             
             <Field>
               <Label>Priority *</Label>
-              <Select {...register("priority", { required: "Priority is required" })}>
+              <Select {...register("priority", { required: "Priority is required" })} data-tour="priority">
                 <option value="">Select Priority</option>
                 <option value="Low">Low</option>
                 <option value="Medium">Medium</option>
@@ -726,6 +1093,7 @@ function POForm({ onSubmit, isSubmitting = false }) {
             <Input
               {...register("vendorName", { required: "Vendor/Supplier name is required" })}
               placeholder="Name of vendor or supplier"
+              data-tour="vendorName"
             />
             {errors.vendorName && <ErrorText>{errors.vendorName.message}</ErrorText>}
           </Field>
@@ -752,6 +1120,7 @@ function POForm({ onSubmit, isSubmitting = false }) {
                       onChange={(e) => updateItem(index, 'description', e.target.value)}
                       placeholder="Describe the item or service"
                       required
+                      data-tour={index === 0 ? "itemDescription" : undefined}
                     />
                   </Field>
 
@@ -765,6 +1134,7 @@ function POForm({ onSubmit, isSubmitting = false }) {
                       onChange={(e) => updateItem(index, 'qty', e.target.value)}
                       placeholder="1"
                       style={{ minWidth: '80px' }}
+                      data-tour={index === 0 ? "quantity" : undefined}
                     />
                   </Field>
                   
@@ -776,6 +1146,7 @@ function POForm({ onSubmit, isSubmitting = false }) {
                       value={item.unitPrice}
                       onChange={(e) => updateItem(index, 'unitPrice', e.target.value)}
                       placeholder="0.00"
+                      data-tour={index === 0 ? "unitPrice" : undefined}
                     />
                   </Field>
 
@@ -792,6 +1163,7 @@ function POForm({ onSubmit, isSubmitting = false }) {
                     <GLCodeSelect
                       value={item.glCode}
                       onChange={(e) => updateItem(index, 'glCode', e.target.value)}
+                      data-tour={index === 0 ? "glCode" : undefined}
                     >
                       <option value="">Select GL Code</option>
                       {glCodeOptions.map((option) => (
@@ -819,13 +1191,13 @@ function POForm({ onSubmit, isSubmitting = false }) {
               </ItemRow>
             ))}
             
-            <AddButton type="button" onClick={addItem}>
+            <AddButton type="button" onClick={addItem} data-tour="addItemButton">
               <Plus size={16} />
               Add Another Item
             </AddButton>
           </ItemsContainer>
 
-          <TotalsContainer>
+          <TotalsContainer data-tour="totalsSection">
             <TotalRow>
               <TotalRowLabel>Subtotal:</TotalRowLabel>
               <TotalRowValue>${formatCurrency(calculateSubtotal())}</TotalRowValue>
@@ -847,6 +1219,7 @@ function POForm({ onSubmit, isSubmitting = false }) {
             onClick={handlePDFExport}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
+            data-tour="exportPDF"
           >
             <Download size={16} />
             Export as PDF
@@ -861,6 +1234,7 @@ function POForm({ onSubmit, isSubmitting = false }) {
               opacity: isSubmitting ? 0.7 : 1,
               cursor: isSubmitting ? 'not-allowed' : 'pointer'
             }}
+            data-tour="submitButton"
           >
             {isSubmitting ? (
               <>
@@ -876,6 +1250,25 @@ function POForm({ onSubmit, isSubmitting = false }) {
           </SubmitButton>
         </ButtonContainer>
       </Form>
+      {showQuiz && (
+        <div style={{ background: '#fffbe6', borderRadius: 12, padding: 24, marginTop: 32, textAlign: 'center' }}>
+          <h3>Quiz</h3>
+          {!quizComplete ? (
+            <>
+              <p>{quizQuestions[quizStep].question}</p>
+              {quizQuestions[quizStep].options.map((opt, idx) => (
+                <button key={opt} onClick={() => handleQuizAnswer(idx)} style={{ margin: 8, padding: '8px 18px', borderRadius: 6, border: 'none', background: '#198754', color: '#fff', fontWeight: 600, cursor: 'pointer' }}>{opt}</button>
+              ))}
+            </>
+          ) : (
+            <div>
+              <h4>Quiz Complete!</h4>
+              <p>Your Score: {quizScore} / {quizQuestions.length}</p>
+              {quizScore === quizQuestions.length && <div style={{ color: '#198754', fontWeight: 700, fontSize: 18 }}>🏅 Perfect Score! You’re a PO Pro!</div>}
+            </div>
+          )}
+        </div>
+      )}
     </FormContainer>
   );
 }

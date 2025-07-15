@@ -13,6 +13,7 @@ import {
   Settings,
   ChevronDown
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const HeaderContainer = styled.header`
   background: linear-gradient(135deg, #0f5132 0%, #198754 100%);
@@ -334,6 +335,8 @@ const ProgressIcon = styled.div`
   color: rgba(255, 255, 255, 0.8);
 `;
 
+
+
 function Header({ onSaveDraft, onClearForm, onHelp, formProgress = 0 }) {
   const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -399,55 +402,6 @@ function Header({ onSaveDraft, onClearForm, onHelp, formProgress = 0 }) {
             </BrandInfo>
           </LogoContainer>
         </LogoSection>
-
-        <MiddleSection>
-          <SessionInfo
-            initial={{ y: -20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-          >
-            <UserBadge>
-              <Avatar>JD</Avatar>
-              <UserInfo>
-                <UserName>John Doe</UserName>
-                <UserRole>Property Manager</UserRole>
-              </UserInfo>
-            </UserBadge>
-            
-            <TimeDisplay>
-              <Clock size={16} />
-              <div>
-                <div>{formatTime(currentTime)}</div>
-                <div style={{ fontSize: '0.75rem', opacity: 0.8 }}>
-                  {formatDate(currentTime)}
-                </div>
-              </div>
-            </TimeDisplay>
-          </SessionInfo>
-
-          <FormProgress
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <ProgressIcon>
-              <FileText size={16} />
-            </ProgressIcon>
-            <ProgressBarContainer>
-              <ProgressBar
-                initial={{ width: 0 }}
-                animate={{ width: `${formProgress}%` }}
-                transition={{ duration: 0.5, ease: "easeOut" }}
-              />
-            </ProgressBarContainer>
-            <ProgressText>
-              {Math.round(formProgress)}%
-              <div style={{ fontSize: '0.75rem', opacity: 0.8 }}>
-                {getProgressStatus(formProgress)}
-              </div>
-            </ProgressText>
-          </FormProgress>
-        </MiddleSection>
 
         <RightSection>
           <QuickActions>
@@ -525,7 +479,6 @@ function Header({ onSaveDraft, onClearForm, onHelp, formProgress = 0 }) {
               </Tooltip>
             </ActionButtonContainer>
           </QuickActions>
-
           <StatusBadge
             initial={{ x: 20, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
