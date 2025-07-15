@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import POForm from './components/POForm';
 import SuccessModal from './components/SuccessModal';
+import LandingPage from './components/LandingPage';
 import { sendDirectEmail, sendPurchaseOrderEmail } from './utils/emailService';
 import Confetti from 'react-confetti';
 
@@ -71,6 +72,7 @@ const Badge = styled.div`
 `;
 
 function App() {
+  const [isAuthorized, setIsAuthorized] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [submittedData, setSubmittedData] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -133,6 +135,15 @@ function App() {
     setSubmittedData(null);
   };
 
+  const handleAuthorization = () => {
+    setIsAuthorized(true);
+  };
+
+  // Show landing page if not authorized
+  if (!isAuthorized) {
+    return <LandingPage onAuthorized={handleAuthorization} />;
+  }
+
   return (
     <AppContainer>
       <TourButton onClick={() => setRunTour(true)}>Start Guided Tour</TourButton>
@@ -156,10 +167,11 @@ function App() {
           </Routes>
         </ContentWrapper>
       </MainContent>
+      
       {showSuccessModal && (
         <SuccessModal 
           data={submittedData} 
-          onClose={closeSuccessModal} 
+          onClose={closeSuccessModal}
         />
       )}
     </AppContainer>
