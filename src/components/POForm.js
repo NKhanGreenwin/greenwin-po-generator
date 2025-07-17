@@ -758,16 +758,68 @@ function POForm({ onSubmit, isSubmitting = false, runTour = false, onTourEnd }) 
 
   // GL Code options with expense types
   const glCodeOptions = [
+    // Repairs & Maintenance
+    { code: "5000-0100", name: "Repairs & Maintenance", expenseType: "PMC Opex (Non-Contract)" },
+    { code: "5000-0101", name: "InSuite - Cleaning", expenseType: "PMC Opex (Non-Contract)" },
+    { code: "5000-0103", name: "InSuite - Electrical Repairs and Supplies", expenseType: "PMC Opex (Non-Contract)" },
+    { code: "5000-0104", name: "InSuite - Flooring Repairs", expenseType: "PMC Opex (Non-Contract)" },
+    { code: "5000-0105", name: "InSuite - Painting & Plastering", expenseType: "PMC Opex (Non-Contract)" },
+    { code: "5000-0106", name: "InSuite - Appliance Repairs", expenseType: "PMC Opex (Non-Contract)" },
+    { code: "5000-0107", name: "InSuite - Maintenance Chargeback", expenseType: "PMC Opex (Non-Contract)" },
+    { code: "5000-0108", name: "InSuite - Pest Control", expenseType: "PMC Opex (Non-Contract)" },
+    { code: "5000-0109", name: "InSuite - Plumbing", expenseType: "PMC Opex (Non-Contract)" },
+    { code: "5000-0300", name: "Non Contract - Repair & Maintenance", expenseType: "PMC Opex (Non-Contract)" },
+    { code: "5000-0301", name: "Non Contract - Boiler/HVAC and Electrical", expenseType: "PMC Opex (Non-Contract)" },
+    { code: "5000-0302", name: "Non Contract - Cleaning", expenseType: "PMC Opex (Non-Contract)" },
+    { code: "5000-0306", name: "Non Contract - Elevator", expenseType: "PMC Opex (Non-Contract)" },
+    { code: "5000-0307", name: "Non Contract - Fire and Life Safety", expenseType: "PMC Opex (Non-Contract)" },
+    { code: "5000-0309", name: "Non Contract - Landscaping", expenseType: "PMC Opex (Non-Contract)" },
+    { code: "5000-0310", name: "Non Contract - Painting and Plastering", expenseType: "PMC Opex (Non-Contract)" },
+    { code: "5000-0312", name: "Non Contract - Parking and Garage", expenseType: "PMC Opex (Non-Contract)" },
+    { code: "5000-0313", name: "Non Contract - Pest Control", expenseType: "PMC Opex (Non-Contract)" },
+    { code: "5000-0314", name: "Non Contract - Plumbing Repairs", expenseType: "PMC Opex (Non-Contract)" },
+    { code: "5000-0316", name: "Non Contract - Amenities", expenseType: "PMC Opex (Non-Contract)" },
+    { code: "5000-0318", name: "Non Contract - Roof Repairs", expenseType: "PMC Opex (Non-Contract)" },
+    { code: "5000-0321", name: "Non Contract - Snow Removal", expenseType: "PMC Opex (Non-Contract)" },
+    { code: "5000-0322", name: "Non Contract - Building Supplies", expenseType: "PMC Opex (Non-Contract)" },
+    { code: "5000-0323", name: "Non Contract - Elevator and Intercom - Telephone", expenseType: "PMC Opex (Non-Contract)" },
+    { code: "5000-0324", name: "Non Contract - Waste Disposal", expenseType: "PMC Opex (Non-Contract)" },
+    { code: "5000-0325", name: "Non Contract - Doors and Windows", expenseType: "PMC Opex (Non-Contract)" },
+    { code: "5000-0327", name: "Non Contract - Security", expenseType: "PMC Opex (Non-Contract)" },
+    { code: "5000-0335", name: "Non Contract - Property owned Vehicle costs", expenseType: "PMC Opex (Non-Contract)" },
+    { code: "5000-0350", name: "Non Contract - Generator (Fuel & Repair)", expenseType: "PMC Opex (Non-Contract)" },
+    { code: "5000-0400", name: "Contract - Boiler/HVAC and Electrical", expenseType: "PMC Opex (Contract)" },
+    { code: "5000-0401", name: "Contract - Cleaning", expenseType: "PMC Opex (Contract)" },
+    { code: "5000-0403", name: "Contract - Elevator", expenseType: "PMC Opex (Contract)" },
+    { code: "5000-0404", name: "Contract - Fire and Life Safety", expenseType: "PMC Opex (Contract)" },
+    { code: "5000-0405", name: "Contract - Landscaping", expenseType: "PMC Opex (Contract)" },
+    { code: "5000-0406", name: "Contract - Pest Control", expenseType: "PMC Opex (Contract)" },
+    { code: "5000-0407", name: "Contract - Pool", expenseType: "PMC Opex (Contract)" },
+    { code: "5000-0408", name: "Contract - Snow Removal", expenseType: "PMC Opex (Contract)" },
+    { code: "5000-0409", name: "Contract - Waste Disposal", expenseType: "PMC Opex (Contract)" },
+    { code: "5000-0410", name: "Contract - Security", expenseType: "PMC Opex (Contract)" },
+    { code: "5000-0411", name: "Contract - Generator", expenseType: "PMC Opex (Contract)" },
+    
+    // Advertising
+    { code: "5000-1706", name: "Marketing Leasing Costs", expenseType: "PMC - Opex (Marketing)" },
+    { code: "5000-1800", name: "Advertising and Promotion", expenseType: "PMC - Opex (Marketing)" },
+    { code: "5000-1806", name: "Marketing Materials", expenseType: "PMC - Opex (Marketing)" },
+    
+    // General and Administration
+    { code: "5000-1702", name: "Office and Supplies", expenseType: "PMC Opex (Non-Contract)" },
+    { code: "5000-1712", name: "Computer Licensing", expenseType: "PMC Opex (Non-Contract)" },
+    { code: "5000-1717", name: "Resident and Employee events", expenseType: "PMC Opex (Non-Contract)" },
+    
     // CAPEX Work
     { code: "8000-1000", name: "In-Suite Capital Cost", expenseType: "CAPEX Work" },
     { code: "8000-1001", name: "Common Area Capital Cost", expenseType: "CAPEX Work" },
     
-    // Accounts for vacant unit suite turns
-    { code: "8000-1200", name: "PMC – Suite Turnover – First Turn", expenseType: "Suite Turnover" },
-    { code: "8000-1201", name: "PMC – Suite Turnover-second/Custom Turn", expenseType: "Suite Turnover" },
-    { code: "8000-1202", name: "PMC – Suite Turnover – Submetering Refresh", expenseType: "Suite Turnover" },
-    { code: "8000-1203", name: "PMC – Suite Turnover Turn", expenseType: "Suite Turnover" },
-    { code: "8000-1206", name: "PMC -  Suite Turnover – Standard Turns", expenseType: "Suite Turnover" }
+    // Accounts for Vacant Unit Suite Turns
+    { code: "8000-1200", name: "PMC - Suite Turnover - First Turn", expenseType: "Accounts for Vacant Unit Suite Turns" },
+    { code: "8000-1201", name: "PMC - Suite Turnover -second/Custom Turn", expenseType: "Accounts for Vacant Unit Suite Turns" },
+    { code: "8000-1202", name: "PMC - Suite Turnover -Submetering Refresh", expenseType: "Accounts for Vacant Unit Suite Turns" },
+    { code: "8000-1203", name: "PMC - Suite Turnover -Suite Turnover Turn", expenseType: "Accounts for Vacant Unit Suite Turns" },
+    { code: "8000-1206", name: "PMC - Suite Turnover -Standard Turns", expenseType: "Accounts for Vacant Unit Suite Turns" }
   ];
 
 
