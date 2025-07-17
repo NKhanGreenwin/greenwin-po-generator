@@ -190,7 +190,19 @@ Vendor/Supplier Name: ${formData.vendorName || 'N/A'}
 
 ITEMS & PRICING:
 ${formData.items && formData.items.length > 0 
-  ? formData.items.map((item, index) => `Item ${index + 1}: ${item.description || 'N/A'} - Qty: ${item.qty || 1} - Price: $${(parseFloat(item.unitPrice) || 0).toFixed(2)}`).join('\n')
+  ? formData.items.map((item, index) => {
+      const qty = parseFloat(item.qty) || 1;
+      const unitPrice = parseFloat(item.unitPrice) || 0;
+      const total = qty * unitPrice;
+      
+      return `Item ${index + 1}:
+Description: ${item.description || 'N/A'}
+Quantity: ${qty}
+Unit Price: $${unitPrice.toFixed(2)}
+GL Code: ${item.glCode || 'N/A'}
+Expense Type: ${item.expenseType || 'N/A'}
+Total: $${total.toFixed(2)}`;
+    }).join('\n\n')
   : 'No items specified'
 }
 
