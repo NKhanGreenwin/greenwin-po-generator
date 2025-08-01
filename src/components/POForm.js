@@ -744,16 +744,79 @@ function POForm({ onSubmit, isSubmitting = false, runTour = false, onTourEnd }) 
 
   // Property code mapping
   const propertyCodeMapping = {
-    "2360 Weston Road": "west2360",
-    "2450 & 2460 Weston Road": "west2450", 
-    "255 & 265 Westwood Road": "west0255",
-    "2200 Roche Court": "roch2200",
-    "57 Forest Avenue": "fore0057",
-    "772 Paisley Road, 4 Ryde Road and 3 Candlewood Drive": "pais0772",
-    "160 Market Street": "mark0160",
+    "545, 547 & 565 Belmont Avenue West": "belm0545",
+    "1425A and 1425B Block Line Road (Art Haus)": "bloc1425",
+    "50 Burma Road": "burm0050",
+    "1110 Caven Street": "cave1110",
+    "86 Cedar Street South": "ceda0086",
+    "286 Chandler Drive": "chan0286",
+    "327 Chedlowe Avenue": "che0327",
+    "91 Cosburn Avenue": "cosb0091",
+    "100 Cosburn Avenue": "cosb0100",
     "145 Cosburn Avenue": "cosb0145",
-    "151 Hughson Street South": "hugh0151",
-    "294 Chandler Drive": "chan0286"
+    "493 & 21 Dalegrove Drive": "dale1921",
+    "338-342 Donlands Avenue": "donl0338",
+    "236 Duke Street": "duke0236",
+    "113-123 Emerald Street South": "emer0113",
+    "351 Eramosa Road": "eram0351",
+    "285 Erb Street West": "erb0285",
+    "43 Forest Avenue": "fore0043",
+    "45 Forty Second Street": "fort0045",
+    "55 Forty Second Street": "fort0055",
+    "1970 Fowler Drive": "fowl1970",
+    "1980 Fowler Drive": "fowl1980",
+    "260 Gamble Avenue": "gamb0260",
+    "500 Glenelm Crescent": "glen0500",
+    "504 Glenelm Crescent": "glen0504",
+    "130 Govan Avenue": "gova0130",
+    "607 & 611 Heritage Drive": "heri0607",
+    "10 Highland Crescent": "high0010",
+    "65 & 65A Hillside Drive": "hill0065",
+    "68 Hillside Drive": "hill0068",
+    "220A & 220B Ira Needles Boulevard": "iran0220",
+    "90 & 92 James Street and 25 Via Street": "jame0090",
+    "2801 Jane Street": "jane2801",
+    "4500 Jane Street": "jane4500",
+    "1060 Kingston Road": "king1060",
+    "1150-1200 Kingston Road": "king1150",
+    "150 main Street West": "main0150",
+    "7, 8, 9, 10 & 11 Manhattan Court": "manh0007",
+    "15 Manhattan Court": "manh0015",
+    "155 Market Street": "mark0155",
+    "40 McKay Road": "mcka0040",
+    "35 Mowat Boulevard": "mowa0035",
+    "976 Paisley Road": "pais0976",
+    "996 Paisley Road": "pais0996",
+    "1020 Paisley Road": "pais1020",
+    "1042 Paisley Road": "pais1042",
+    "67 Parkwoods Village Drive": "park0067",
+    "70 Parkwoods Village Drive": "park0070",
+    "77 Parkwoods Village Drive": "park0077",
+    "318, 332 & 352 Patricia Avenue": "patr0318",
+    "291 Queens Avenue": "quee0291",
+    "230 Queens Avenue": "quee0237",
+    "236-7 Queen Street East": "quee0236",
+    "38 Rivercrest Road": "rive0038",
+    "191 Silvercreek Parkway South": "silv0191",
+    "53 & 65 Speedvale Avenue West": "spee0053",
+    "5, 7, & 9 Staghill Drive": "stag0579",
+    "2892 St. Clair Avenue East": "stcl2892",
+    "2893 & 2897 St. Clair Avenue East": "stcl2893",
+    "71 Thorncliffe Park Drive": "thor0071",
+    "75 Thorncliffe Park Drive": "thor0075",
+    "79 Thorncliffe Park Drive": "thor0079",
+    "66 Tisdale Street South": "tisd0066",
+    "301 & 341 Traynor Avenue and 551 & 553 Vanier Drive": "tray0301",
+    "444 Victoria Road North": "vict0444",
+    "2029-2055 Victoria Park Avenue": "vict2029",
+    "350 Victoria Road North": "vict0350",
+    "470 Wellington Street North": "well0470",
+    "109, 115 & 123 Westwood Drive": "west0109",
+    "2240 Weston Road": "west2240",
+    "2263 Weston Road": "west2263",
+    "2278 Weston Road": "west2278",
+    "1264 York Mills Road": "york1264",
+    "50 Young Street": "youn0050"
   };
 
   // GL Code options with expense types
@@ -999,16 +1062,79 @@ function POForm({ onSubmit, isSubmitting = false, runTour = false, onTourEnd }) 
               <Label>Property *</Label>
               <Select {...register("property", { required: "Property selection is required" })} data-tour="property">
                 <option value="">Select Property</option>
-                <option value="2360 Weston Road">2360 Weston Road</option>
-                <option value="2450 & 2460 Weston Road">2450 & 2460 Weston Road</option>
-                <option value="255 & 265 Westwood Road">255 & 265 Westwood Road</option>
-                <option value="2200 Roche Court">2200 Roche Court</option>
-                <option value="57 Forest Avenue">57 Forest Avenue</option>
-                <option value="772 Paisley Road, 4 Ryde Road and 3 Candlewood Drive">772 Paisley Road, 4 Ryde Road and 3 Candlewood Drive</option>
-                <option value="160 Market Street">160 Market Street</option>
+                <option value="545, 547 & 565 Belmont Avenue West">545, 547 & 565 Belmont Avenue West</option>
+                <option value="1425A and 1425B Block Line Road (Art Haus)">1425A and 1425B Block Line Road (Art Haus)</option>
+                <option value="50 Burma Road">50 Burma Road</option>
+                <option value="1110 Caven Street">1110 Caven Street</option>
+                <option value="86 Cedar Street South">86 Cedar Street South</option>
+                <option value="286 Chandler Drive">286 Chandler Drive</option>
+                <option value="327 Chedlowe Avenue">327 Chedlowe Avenue</option>
+                <option value="91 Cosburn Avenue">91 Cosburn Avenue</option>
+                <option value="100 Cosburn Avenue">100 Cosburn Avenue</option>
                 <option value="145 Cosburn Avenue">145 Cosburn Avenue</option>
-                <option value="151 Hughson Street South">151 Hughson Street South</option>
-                <option value="294 Chandler Drive">294 Chandler Drive</option>
+                <option value="493 & 21 Dalegrove Drive">493 & 21 Dalegrove Drive</option>
+                <option value="338-342 Donlands Avenue">338-342 Donlands Avenue</option>
+                <option value="236 Duke Street">236 Duke Street</option>
+                <option value="113-123 Emerald Street South">113-123 Emerald Street South</option>
+                <option value="351 Eramosa Road">351 Eramosa Road</option>
+                <option value="285 Erb Street West">285 Erb Street West</option>
+                <option value="43 Forest Avenue">43 Forest Avenue</option>
+                <option value="45 Forty Second Street">45 Forty Second Street</option>
+                <option value="55 Forty Second Street">55 Forty Second Street</option>
+                <option value="1970 Fowler Drive">1970 Fowler Drive</option>
+                <option value="1980 Fowler Drive">1980 Fowler Drive</option>
+                <option value="260 Gamble Avenue">260 Gamble Avenue</option>
+                <option value="500 Glenelm Crescent">500 Glenelm Crescent</option>
+                <option value="504 Glenelm Crescent">504 Glenelm Crescent</option>
+                <option value="130 Govan Avenue">130 Govan Avenue</option>
+                <option value="607 & 611 Heritage Drive">607 & 611 Heritage Drive</option>
+                <option value="10 Highland Crescent">10 Highland Crescent</option>
+                <option value="65 & 65A Hillside Drive">65 & 65A Hillside Drive</option>
+                <option value="68 Hillside Drive">68 Hillside Drive</option>
+                <option value="220A & 220B Ira Needles Boulevard">220A & 220B Ira Needles Boulevard</option>
+                <option value="90 & 92 James Street and 25 Via Street">90 & 92 James Street and 25 Via Street</option>
+                <option value="2801 Jane Street">2801 Jane Street</option>
+                <option value="4500 Jane Street">4500 Jane Street</option>
+                <option value="1060 Kingston Road">1060 Kingston Road</option>
+                <option value="1150-1200 Kingston Road">1150-1200 Kingston Road</option>
+                <option value="150 main Street West">150 main Street West</option>
+                <option value="7, 8, 9, 10 & 11 Manhattan Court">7, 8, 9, 10 & 11 Manhattan Court</option>
+                <option value="15 Manhattan Court">15 Manhattan Court</option>
+                <option value="155 Market Street">155 Market Street</option>
+                <option value="40 McKay Road">40 McKay Road</option>
+                <option value="35 Mowat Boulevard">35 Mowat Boulevard</option>
+                <option value="976 Paisley Road">976 Paisley Road</option>
+                <option value="996 Paisley Road">996 Paisley Road</option>
+                <option value="1020 Paisley Road">1020 Paisley Road</option>
+                <option value="1042 Paisley Road">1042 Paisley Road</option>
+                <option value="67 Parkwoods Village Drive">67 Parkwoods Village Drive</option>
+                <option value="70 Parkwoods Village Drive">70 Parkwoods Village Drive</option>
+                <option value="77 Parkwoods Village Drive">77 Parkwoods Village Drive</option>
+                <option value="318, 332 & 352 Patricia Avenue">318, 332 & 352 Patricia Avenue</option>
+                <option value="291 Queens Avenue">291 Queens Avenue</option>
+                <option value="230 Queens Avenue">230 Queens Avenue</option>
+                <option value="236-7 Queen Street East">236-7 Queen Street East</option>
+                <option value="38 Rivercrest Road">38 Rivercrest Road</option>
+                <option value="191 Silvercreek Parkway South">191 Silvercreek Parkway South</option>
+                <option value="53 & 65 Speedvale Avenue West">53 & 65 Speedvale Avenue West</option>
+                <option value="5, 7, & 9 Staghill Drive">5, 7, & 9 Staghill Drive</option>
+                <option value="2892 St. Clair Avenue East">2892 St. Clair Avenue East</option>
+                <option value="2893 & 2897 St. Clair Avenue East">2893 & 2897 St. Clair Avenue East</option>
+                <option value="71 Thorncliffe Park Drive">71 Thorncliffe Park Drive</option>
+                <option value="75 Thorncliffe Park Drive">75 Thorncliffe Park Drive</option>
+                <option value="79 Thorncliffe Park Drive">79 Thorncliffe Park Drive</option>
+                <option value="66 Tisdale Street South">66 Tisdale Street South</option>
+                <option value="301 & 341 Traynor Avenue and 551 & 553 Vanier Drive">301 & 341 Traynor Avenue and 551 & 553 Vanier Drive</option>
+                <option value="444 Victoria Road North">444 Victoria Road North</option>
+                <option value="2029-2055 Victoria Park Avenue">2029-2055 Victoria Park Avenue</option>
+                <option value="350 Victoria Road North">350 Victoria Road North</option>
+                <option value="470 Wellington Street North">470 Wellington Street North</option>
+                <option value="109, 115 & 123 Westwood Drive">109, 115 & 123 Westwood Drive</option>
+                <option value="2240 Weston Road">2240 Weston Road</option>
+                <option value="2263 Weston Road">2263 Weston Road</option>
+                <option value="2278 Weston Road">2278 Weston Road</option>
+                <option value="1264 York Mills Road">1264 York Mills Road</option>
+                <option value="50 Young Street">50 Young Street</option>
               </Select>
               {errors.property && <ErrorText>{errors.property.message}</ErrorText>}
             </Field>
