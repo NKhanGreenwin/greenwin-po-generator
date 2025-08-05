@@ -750,6 +750,7 @@ function POForm({ onSubmit, isSubmitting = false, runTour = false, onTourEnd }) 
     "1110 Caven Street": "cave1110",
     "86 Cedar Street South": "ceda0086",
     "286 Chandler Drive": "chan0286",
+    "294 Chandler Drive": "chan0294",
     "327 Chedlowe Avenue": "che0327",
     "91 Cosburn Avenue": "cosb0091",
     "100 Cosburn Avenue": "cosb0100",
@@ -761,6 +762,7 @@ function POForm({ onSubmit, isSubmitting = false, runTour = false, onTourEnd }) 
     "351 Eramosa Road": "eram0351",
     "285 Erb Street West": "erb0285",
     "43 Forest Avenue": "fore0043",
+    "57 Forest Avenue": "fore0057",
     "45 Forty Second Street": "fort0045",
     "55 Forty Second Street": "fort0055",
     "1970 Fowler Drive": "fowl1970",
@@ -773,6 +775,7 @@ function POForm({ onSubmit, isSubmitting = false, runTour = false, onTourEnd }) 
     "10 Highland Crescent": "high0010",
     "65 & 65A Hillside Drive": "hill0065",
     "68 Hillside Drive": "hill0068",
+    "151 Hughson Street South": "hugh0151",
     "220A & 220B Ira Needles Boulevard": "iran0220",
     "90 & 92 James Street and 25 Via Street": "jame0090",
     "2801 Jane Street": "jane2801",
@@ -783,12 +786,14 @@ function POForm({ onSubmit, isSubmitting = false, runTour = false, onTourEnd }) 
     "7, 8, 9, 10 & 11 Manhattan Court": "manh0007",
     "15 Manhattan Court": "manh0015",
     "155 Market Street": "mark0155",
+    "160 Market Street": "mark0160",
     "40 McKay Road": "mcka0040",
     "35 Mowat Boulevard": "mowa0035",
     "976 Paisley Road": "pais0976",
     "996 Paisley Road": "pais0996",
     "1020 Paisley Road": "pais1020",
     "1042 Paisley Road": "pais1042",
+    "772 Paisley Road, 4 Ryde Road & 3 Candlewood Drive": "pais0772",
     "67 Parkwoods Village Drive": "park0067",
     "70 Parkwoods Village Drive": "park0070",
     "77 Parkwoods Village Drive": "park0077",
@@ -797,6 +802,7 @@ function POForm({ onSubmit, isSubmitting = false, runTour = false, onTourEnd }) 
     "230 Queens Avenue": "quee0237",
     "236-7 Queen Street East": "quee0236",
     "38 Rivercrest Road": "rive0038",
+    "2200 Roche Court": "roch2200",
     "191 Silvercreek Parkway South": "silv0191",
     "53 & 65 Speedvale Avenue West": "spee0053",
     "5, 7, & 9 Staghill Drive": "stag0579",
@@ -812,9 +818,12 @@ function POForm({ onSubmit, isSubmitting = false, runTour = false, onTourEnd }) 
     "350 Victoria Road North": "vict0350",
     "470 Wellington Street North": "well0470",
     "109, 115 & 123 Westwood Drive": "west0109",
+    "255 & 265 Westwood Road": "west0255",
     "2240 Weston Road": "west2240",
     "2263 Weston Road": "west2263",
     "2278 Weston Road": "west2278",
+    "2360 Weston Road": "west2360",
+    "2450 & 2460 Weston Road": "west2450",
     "1264 York Mills Road": "york1264",
     "50 Young Street": "youn0050"
   };
@@ -1068,6 +1077,7 @@ function POForm({ onSubmit, isSubmitting = false, runTour = false, onTourEnd }) 
                 <option value="1110 Caven Street">1110 Caven Street</option>
                 <option value="86 Cedar Street South">86 Cedar Street South</option>
                 <option value="286 Chandler Drive">286 Chandler Drive</option>
+                <option value="294 Chandler Drive">294 Chandler Drive</option>
                 <option value="327 Chedlowe Avenue">327 Chedlowe Avenue</option>
                 <option value="91 Cosburn Avenue">91 Cosburn Avenue</option>
                 <option value="100 Cosburn Avenue">100 Cosburn Avenue</option>
@@ -1079,6 +1089,7 @@ function POForm({ onSubmit, isSubmitting = false, runTour = false, onTourEnd }) 
                 <option value="351 Eramosa Road">351 Eramosa Road</option>
                 <option value="285 Erb Street West">285 Erb Street West</option>
                 <option value="43 Forest Avenue">43 Forest Avenue</option>
+                <option value="57 Forest Avenue">57 Forest Avenue</option>
                 <option value="45 Forty Second Street">45 Forty Second Street</option>
                 <option value="55 Forty Second Street">55 Forty Second Street</option>
                 <option value="1970 Fowler Drive">1970 Fowler Drive</option>
@@ -1091,6 +1102,7 @@ function POForm({ onSubmit, isSubmitting = false, runTour = false, onTourEnd }) 
                 <option value="10 Highland Crescent">10 Highland Crescent</option>
                 <option value="65 & 65A Hillside Drive">65 & 65A Hillside Drive</option>
                 <option value="68 Hillside Drive">68 Hillside Drive</option>
+                <option value="151 Hughson Street South">151 Hughson Street South</option>
                 <option value="220A & 220B Ira Needles Boulevard">220A & 220B Ira Needles Boulevard</option>
                 <option value="90 & 92 James Street and 25 Via Street">90 & 92 James Street and 25 Via Street</option>
                 <option value="2801 Jane Street">2801 Jane Street</option>
@@ -1101,12 +1113,14 @@ function POForm({ onSubmit, isSubmitting = false, runTour = false, onTourEnd }) 
                 <option value="7, 8, 9, 10 & 11 Manhattan Court">7, 8, 9, 10 & 11 Manhattan Court</option>
                 <option value="15 Manhattan Court">15 Manhattan Court</option>
                 <option value="155 Market Street">155 Market Street</option>
+                <option value="160 Market Street">160 Market Street</option>
                 <option value="40 McKay Road">40 McKay Road</option>
                 <option value="35 Mowat Boulevard">35 Mowat Boulevard</option>
                 <option value="976 Paisley Road">976 Paisley Road</option>
                 <option value="996 Paisley Road">996 Paisley Road</option>
                 <option value="1020 Paisley Road">1020 Paisley Road</option>
                 <option value="1042 Paisley Road">1042 Paisley Road</option>
+                <option value="772 Paisley Road, 4 Ryde Road & 3 Candlewood Drive">772 Paisley Road, 4 Ryde Road & 3 Candlewood Drive</option>
                 <option value="67 Parkwoods Village Drive">67 Parkwoods Village Drive</option>
                 <option value="70 Parkwoods Village Drive">70 Parkwoods Village Drive</option>
                 <option value="77 Parkwoods Village Drive">77 Parkwoods Village Drive</option>
@@ -1115,6 +1129,7 @@ function POForm({ onSubmit, isSubmitting = false, runTour = false, onTourEnd }) 
                 <option value="230 Queens Avenue">230 Queens Avenue</option>
                 <option value="236-7 Queen Street East">236-7 Queen Street East</option>
                 <option value="38 Rivercrest Road">38 Rivercrest Road</option>
+                <option value="2200 Roche Court">2200 Roche Court</option>
                 <option value="191 Silvercreek Parkway South">191 Silvercreek Parkway South</option>
                 <option value="53 & 65 Speedvale Avenue West">53 & 65 Speedvale Avenue West</option>
                 <option value="5, 7, & 9 Staghill Drive">5, 7, & 9 Staghill Drive</option>
@@ -1130,9 +1145,12 @@ function POForm({ onSubmit, isSubmitting = false, runTour = false, onTourEnd }) 
                 <option value="350 Victoria Road North">350 Victoria Road North</option>
                 <option value="470 Wellington Street North">470 Wellington Street North</option>
                 <option value="109, 115 & 123 Westwood Drive">109, 115 & 123 Westwood Drive</option>
+                <option value="255 & 265 Westwood Road">255 & 265 Westwood Road</option>
                 <option value="2240 Weston Road">2240 Weston Road</option>
                 <option value="2263 Weston Road">2263 Weston Road</option>
                 <option value="2278 Weston Road">2278 Weston Road</option>
+                <option value="2360 Weston Road">2360 Weston Road</option>
+                <option value="2450 & 2460 Weston Road">2450 & 2460 Weston Road</option>
                 <option value="1264 York Mills Road">1264 York Mills Road</option>
                 <option value="50 Young Street">50 Young Street</option>
               </Select>
